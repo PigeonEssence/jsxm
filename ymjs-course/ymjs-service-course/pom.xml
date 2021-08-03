@@ -17,15 +17,43 @@
     </properties>
 
     <dependencies>
+        <!--openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>ymjs-pojo-course</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-     <dependency>
+
+        <dependency>
             <groupId>org.example</groupId>
             <artifactId>ymjs-common-dependencies</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!--sentinel依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>ymjs-pojo-search</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>ymjs-api-search</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 </project>

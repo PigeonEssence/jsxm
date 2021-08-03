@@ -1,7 +1,6 @@
 package cn.itsource.ymjs.repository;
 
 import cn.itsource.ymjs.entify.FitnessCourse;
-import cn.itsource.ymjs.query.BaseQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

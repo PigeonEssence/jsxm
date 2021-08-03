@@ -48,6 +48,22 @@ spring:
           filters:
             - SwaggerHeaderFilter
             - StripPrefix=1    #请求转发的时候会去掉 /user访问路径
+
+        - id: service-course #指定服务名
+          uri: lb://service-course #去注册中心找这个服务名
+          predicates: #断言，匹配访问的路径
+            - Path=/course/**    #服务访问路径
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1    #请求转发的时候会去掉 /user访问路径
+
+        - id: service-file #指定服务名
+          uri: lb://service-file #去注册中心找这个服务名
+          predicates: #断言，匹配访问的路径
+            - Path=/file/**    #服务访问路径
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1    #请求转发的时候会去掉 /user访问路径
       globalcors:
         cors-configurations:
           '[/**]':

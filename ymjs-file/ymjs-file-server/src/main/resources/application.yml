@@ -1,0 +1,23 @@
+server:
+  port: 2020
+spring:
+  application:
+    name: service-file
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848	#注册中心地址
+    sentinel:
+      transport:
+        dashboard: localhost:1111
+
+file:
+  alicloud:
+    bucket-name: store-server #上传空间bucket
+    access-key: LTAI5tE4djQ8Qo24ZSNT9qmt #你的key
+    secret-key: Ef73Cvy7t4UWqZNQeIhyYeFU3uYvx2 #你的秘钥
+    endpoint: oss-cn-chengdu.aliyuncs.com  #上传端点
+
+logging:
+  level:
+    cn.itsource: debug

@@ -2,16 +2,21 @@ package cn.itsource.ymjs.entify;
 
 
 import cn.itsource.ymjs.entity.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 //健身课程
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
-@Table(name = "t_course")
+@Table(name = "t_fitness_course")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FitnessCourse extends BaseEntity {
 
     @Id
@@ -42,7 +47,20 @@ public class FitnessCourse extends BaseEntity {
     //创建者用户名
     @Column(name = "create_user_name")
     private String createUserName;
+    //卡路里
+    @Column(name = "calories")
+    private Integer calories;
+
+    //适用人群
+    @Column(name = "calories")
+    private Integer forUser;
 
     @Column
     private boolean official;
+    //课程状态
+    @Column(name = "status")
+    private Integer status;
+    //上线时间
+    @Column(name = "online_time")
+    private Date onlineTime;
 }

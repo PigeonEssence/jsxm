@@ -1,4 +1,4 @@
-<template>
+ <template>
 	<section>
 		<!--工具条-->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
@@ -72,59 +72,21 @@
 				<el-form-item label="课程名称" prop="name">
 					<el-input v-model="addForm.name" auto-complete="off"></el-input>
 				</el-form-item>
+
 				<el-form-item label="适用人群" prop="forUser">
 					<el-input v-model="addForm.forUser" auto-complete="off"></el-input>
 				</el-form-item>
+
 				<el-form-item label="课程等级" prop="gradeId">
 					<el-radio-group v-model="addForm.gradeId">
 						<el-radio v-for="grade in grades" :label="grade.id">{{grade.name}}</el-radio>
 					</el-radio-group>
 				</el-form-item>
 
-				<el-form-item label="开课日期" >
-					<el-date-picker
-							v-model="addForm.startTime"
-							type="date"
-							value-format="yyyy-MM-dd"
-							size="small"
-							placeholder="课程开始日期">
-					</el-date-picker>
-				</el-form-item>
-				<el-form-item label="节课日期" >
-					<el-date-picker
-							v-model="addForm.endTime"
-							type="date"
-							value-format="yyyy-MM-dd"
-							size="small"
-							placeholder="课程结束日期">
-					</el-date-picker>
-				</el-form-item>
 
-
-				<el-form-item label="收费规则" prop="gradeId">
-					<el-radio-group v-model="addForm.chargeId">
-						<el-radio @change="changeCharge" v-for="charge in charges" :label="charge.id">{{charge.name}}</el-radio>
-					</el-radio-group>
-				</el-form-item>
 				<el-form-item label="课程价格" prop="price">
 					<el-input :disabled="priceDisabled" v-model="addForm.price" auto-complete="off"></el-input>
 				</el-form-item>
-				<el-form-item label="课程原价">
-					<el-input :disabled="priceDisabled" v-model="addForm.priceOld" auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="咨询QQ" prop="qq">
-					<el-input v-model="addForm.qq" auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="结束时间" >
-					<el-date-picker
-							v-model="addForm.expires"
-							type="date"
-							value-format="yyyy-MM-dd"
-							size="small"
-							placeholder="营销结束时间">
-					</el-date-picker>
-				</el-form-item>
-
 
 				<el-form-item label="课程类型" prop="coursetTypId">
 					<el-cascader
@@ -139,20 +101,21 @@
 					></el-cascader>
 				</el-form-item>
 
-				<el-form-item prop="logo" label="课程封面">
-					<!--<el-input type="text" v-model="employee.logo" auto-complete="off" placeholder="请输入logo！"></el-input>-->
-					<el-upload
-							class="upload-demo"
-							action="http://localhost:1020/hrm/file/fastdfs/upload"
-							:on-preview="handlePreview"
-							:on-remove="handleRemove"
-							:on-success="handleSuccess"
-							:file-list="fileList"
-							list-type="picture">
-						<el-button size="small" type="primary">点击上传</el-button>
-						<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-					</el-upload>
-				</el-form-item>
+        <el-form-item prop="logo" label="课程封面">
+          <!--<el-input type="text" v-model="employee.logo" auto-complete="off" placeholder="请输入logo！"></el-input>-->
+          <el-upload
+              class="upload-demo"
+              action="http://store-server.oss-cn-chengdu.aliyuncs.com"
+              :data="uploadData"
+              :before-upload="beforeUpload"
+              :on-success="handleSuccess"
+              :on-remove="handleRemove"
+              :file-list="fileList"
+              list-type="picture">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+        </el-form-item>
 
 
 				<el-form-item label="课程简介" prop="description">
@@ -176,13 +139,27 @@
 					</div>
 				</el-form-item>
 
-
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click.native="addFormVisible = false">取消</el-button>
 				<el-button type="primary" @click.native="addSubmit" >提交</el-button>
 			</div>
 		</el-dialog>
+    <el-dialog  title="上传资源" :visible.sync="uplodeFormVisible"  :close-on-click-modal="false">
+      <div slot="footer" class="dialog-footer">
+        <el-upload
+            class="upload-demo"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :on-change="handleChange"
+            :file-list="fileList1">
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
+
+        <el-button @click.native="uplodeFormVisible = false">取消</el-button>
+        <el-button type="primary" @click.native="uplode" >提交</el-button>
+      </div>
+    </el-dialog>
 	</section>
 </template>
 
@@ -203,6 +180,23 @@
         },
 		data() {
 			return {
+        fileList1: [{
+          name: 'food.jpeg',
+          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        }, {
+          name: 'food2.jpeg',
+          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        }],
+
+        fileList: [{name:"xxx",url:"http://localhost/uploads/63f18e2b-0717-4d38-b1d8-b29ab463706f.jpg"}],
+        uploadData: {  //提交到OSS的参数
+          policy: '',
+          signature: '',
+          key: '',
+          ossaccessKeyId: '',
+          dir: '',
+          host: ''
+        },
                 row:"",
                 courseTypeProps:{
                     value:"id",
@@ -217,9 +211,22 @@
 				],
 				courseTypes:[],
                 addFormVisible:false,
+                uplodeFormVisible:false,
 				//images:[xxx.jgp,xxxx,jpg,xxxx.jpg],
+        uplodeFrom:{
+              name:'',
+              time:'',
+              chapter:'',
+              course:'',
+              description:'',
+              intro:'',
+              video:'',
+              pic:''
+        },
+
 				addForm:{
                     startTime:'',
+                    gradeName:'',
                     endTime:'',
                     expires:'',
                     name:'',
@@ -245,16 +252,29 @@
 			}
 		},
 		methods: {
-            handleSuccess(response, file, fileList){
-                if(response.success){
-                    this.addForm.pic = response.resultObj;
-                }else{
-                    this.$message({
-                        message: '上传失败!',
-                        type: 'error'
-                    });
-                }
-            },
+      handleChange(file, fileList) {
+        this.fileList = fileList.slice(-3);
+      },
+      handleSuccess(res, file) {
+        this.fileList.pop();
+        //上传的完整的文件地址
+        var urlPath = this.uploadData.host + '/' + this.uploadData.key.replace("${filename}",file.name) ;
+        this.addForm.pic = urlPath;
+        this.$message({message: '\'上传成功，图片地址：\'+this.employee.logo, type: \'success' });
+        this.fileList.push(urlPath);
+      },
+/*      handleRemove(file, fileList) {
+        var url = this.fileList.toString();
+        this.$http.get("/file/oss/dele?url="+url).then(response=> {
+          response.data=url;
+        });
+      },*/
+      handlePreview(file) {
+        console.log(file);
+      },
+      uplode(){
+          this.uplodeFrom;
+      },
             addSubmit(){
                 this.addForm.courseTypeId = this.addForm.courseTypeId[this.addForm.courseTypeId.length - 1];
 				/**
@@ -337,12 +357,31 @@
                     this.priceDisabled = false;
 				}
 			},
+      async beforeUpload(){
+        await this.$http.get("/file/oss/sign").then(response=>{
+          //设置相关的参数
+          var resultObj = response.data.resultObj;
+          alert(this.uploadData.policy);
+          this.uploadData.policy = resultObj.policy;
+          alert(this.uploadData.policy);
+
+          this.uploadData.signature = resultObj.signature;
+          this.uploadData.ossaccessKeyId = resultObj.accessid;
+          //上传的文件名，使用UUID处理一下
+          this.uploadData.key = resultObj.dir + '/'+this.getUUID()+'_${filename}';
+          this.uploadData.dir = resultObj.dir;
+          this.uploadData.host = resultObj.host;
+        });
+      },
             onEditorReady(editor) {
                 //当富文本编辑框初始化好执行
             },
             addHandler(){
 				this.addFormVisible = true;
 			},
+        uploadResources(){
+          this.uplodeFormVisible = true;
+        },
             handleCurrentChange(curentPage){
                 this.page = curentPage;
                 this.getCourses();
@@ -352,7 +391,7 @@
 				//添加分页条件及高级查询条件
 				let para = {
 				    "page":this.page,
-					"keyword":this.filters.keywords
+					  "keyword":this.filters.keywords
 				};
 				this.listLoading = true; //显示加载圈
 				//分页查询
@@ -370,7 +409,7 @@
 				    return;
 				}
 
-				this.$http.post("/course/course/onLineCourse/"+this.row.id).then(res=>{
+				this.$http.post("/course/fitnessCourse/onLineCourse/"+this.row.id).then(res=>{
 				    var ajaxResult = res.data;
 				    if(ajaxResult.success){
                         this.$message({ message: '老铁，上线成功.',type: 'success'});
@@ -387,7 +426,7 @@
                     return;
                 }
 
-                this.$http.post("/course/course/offLineCourse/"+this.row.id).then(res=>{
+                this.$http.post("/course/fitnessCourse/offLineCourse/"+this.row.id).then(res=>{
                     var ajaxResult = res.data;
                     if(ajaxResult.success){
                         this.$message({ message: '老铁，下线成功.',type: 'success'});

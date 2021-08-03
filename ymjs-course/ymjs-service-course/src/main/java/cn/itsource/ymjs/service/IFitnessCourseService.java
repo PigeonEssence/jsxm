@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IFitnessCourseService  extends IBaseService<FitnessCourse, CourseQuery>{
 
+    void onLineCourse(Long id);
+
+    void offLineCourse(Long id);
 }

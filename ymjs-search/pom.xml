@@ -10,6 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ymjs-search</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>ymjs-pojo-search</module>
+        <module>ymjs-api-search</module>
+        <module>ymjs-service-search</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

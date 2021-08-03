@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.5.RELEASE</version>
+        <version>2.1.13.RELEASE</version>
     </parent>
 
     <modules>
@@ -28,6 +28,7 @@
         <module>ymjs-search</module>
         <module>ymjs-shop</module>
         <module>ymjs-user</module>
+        <module>ymjs-file</module>
     </modules>
 
 
@@ -94,5 +95,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 </project>
